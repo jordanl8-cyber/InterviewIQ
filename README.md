@@ -2,8 +2,6 @@
 
 InterviewIQ turns a job description into a short mock interview and uses the results to plan your next one. For a software engineering role, you can write a solution in Python or JavaScript, talk through the tradeoffs, and get a follow-up about the code you just submitted.
 
-[Watch the demo](https://www.youtube.com/watch?v=m1hzI1Zs6l4) · [Try the hosted prototype](https://interviewiq-sage.vercel.app/)
-
 ![Sample coding interview showing a Python solution that detects repeated request IDs and a follow-up about its memory usage.](docs/images/coding-interview.png)
 
 *A sample session in the current build. The Next.js and TypeScript app uses CodeMirror for coding interviews and a voice or text conversation for product, consulting, and behavioral interviews.* [Coding workspace](src/components/CodingWorkspace.tsx)
