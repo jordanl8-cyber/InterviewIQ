@@ -1,16 +1,19 @@
 # InterviewIQ
 
-InterviewIQ turns a job description into a short mock interview and uses the results to plan your next one. For a software engineering role, you can write a solution in Python or JavaScript, talk through the tradeoffs, and get a follow-up about the code you just submitted.
+InterviewIQ turns a job description into a mock interview with behavioral and coding practice. An engineering session can start with a coding problem and move on to how you work with a team. In a dedicated behavioral interview, you can practice talking through a disagreement, a failure, or a decision you would make differently today.
 
-![Sample coding interview showing a Python solution that detects repeated request IDs and a follow-up about its memory usage.](docs/images/coding-interview.png)
+| Behavioral practice | Coding practice |
+| --- | --- |
+| ![Sample behavioral interview asking how a candidate resolved a disagreement over caching versus indexing.](docs/images/behavioral-interview.png) | ![Sample coding interview showing a Python solution for detecting repeated request IDs.](docs/images/coding-interview.png) |
+| Tell the story out loud or in writing. If you say “we compared both approaches,” a follow-up can ask what **you** did to make the comparison fair and how the team decided. | Write Python or JavaScript in the CodeMirror editor and explain your approach. If you use a set to detect repeated requests, a follow-up can ask how much memory it needs as new IDs arrive. |
 
-*A sample session in the current build. The Next.js and TypeScript app uses CodeMirror for coding interviews and a voice or text conversation for product, consulting, and behavioral interviews.* [Coding workspace](src/components/CodingWorkspace.tsx)
+InterviewIQ also supports product and consulting interviews. [Interview tracks](src/lib/constants.ts) · [Coding workspace](src/components/CodingWorkspace.tsx)
 
 ## What happens after you answer?
 
-**During the interview**, the evaluator scores the skills your answer demonstrates. If you solve a hash-map problem but leave the space complexity unexplained, the interviewer can stay on that problem and ask how much memory your solution needs. A session runs for up to three answers. At the end, you get a transcript, a skill breakdown, and drills for your next practice session. [Interview logic](src/lib/interviewer.ts) · [Evaluation criteria](src/lib/prompts.ts)
+**During the interview**, the evaluator scores the skills your answer demonstrates. In a behavioral interview, it looks for a clear situation, task, action, and result (STAR), along with ownership and reflection. In a coding interview, it looks at skills such as problem solving, complexity analysis, and edge-case handling. After up to three answers, you get a transcript, a skill breakdown, and practice drills. [Skill rubrics](src/lib/constants.ts) · [Interview logic](src/lib/interviewer.ts)
 
-**Between interviews**, the app makes two decisions. The overall session score determines the next topic. Finish a hash-map interview with a 7/10 and the next one revisits hash maps with a simpler prompt. Score 7.5 or higher and the app picks an unfinished category if one remains. Separately, the app tracks individual skills to choose difficulty and what to probe. [Category and skill selection](src/lib/adaptation.ts)
+**Between interviews**, the overall session score determines the next topic. Finish a behavioral session on conflict with a 7/10 and the next session revisits conflict with a simpler prompt. The same rule applies to coding topics such as hash maps. At 7.5 or higher, the app picks an unfinished category if one remains. Individual skill scores guide the difficulty and what the interviewer probes next. [Category and skill selection](src/lib/adaptation.ts)
 
 ## Engineering decisions
 
@@ -20,7 +23,7 @@ InterviewIQ turns a job description into a short mock interview and uses the res
 
 ## Run locally
 
-Use **Node.js 24**. From the repository root, run `npm ci` and create a `.env.local` file with these values. Generate the auth secret once with `openssl rand -hex 32` and keep it across restarts.
+Use **Node.js 24** to run the Next.js and TypeScript app. From the repository root, run `npm ci` and create a `.env.local` file with these values. Generate the auth secret once with `openssl rand -hex 32` and keep it across restarts.
 
 ```dotenv
 OPENAI_API_KEY=<your OpenAI API key>
