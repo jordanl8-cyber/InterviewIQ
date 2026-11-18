@@ -1,148 +1,45 @@
 # InterviewIQ
-https://interviewiq-sage.vercel.app/
 
-## Accounts and saved interviews
+InterviewIQ turns a job description into a short mock interview and uses the results to plan your next one. For a software engineering role, you can write a solution in Python or JavaScript, talk through the tradeoffs, and get a follow-up about the code you just submitted.
 
-Use Node.js 24 and run `npm install` and `npm run dev`. Set `BETTER_AUTH_SECRET` in
-`.env.local` to a random secret of at least 32 characters. Keep it stable across
-restarts. On a hosted instance, set `BETTER_AUTH_URL` to the public HTTPS origin.
+[Watch the original demo](https://www.youtube.com/watch?v=m1hzI1Zs6l4) · [Try the hackathon build](https://interviewiq-sage.vercel.app/) · [HackIllinois 2026 submission](https://devpost.com/software/interviewiq-t5k07o)
 
-Create an account at `/signup` and open `/history` to resume an interview or
-revisit a transcript and report. Guest practice from the current browser carries
-over when creating an account. SQLite defaults to `.data/interviewiq.sqlite`.
-Use `INTERVIEWIQ_DB_PATH` to select a database on a persistent volume for a
-single-instance deployment. Back up the database with a SQLite-aware backup tool.
+![Sample coding interview showing a Python solution that detects repeated request IDs and a follow-up about its memory usage.](docs/images/coding-interview.png)
 
-## Project Overview
+*A sample session in the current build. The Next.js and TypeScript app uses CodeMirror for coding interviews and a voice or text conversation for product, consulting, and behavioral interviews.* [Coding workspace](src/components/CodingWorkspace.tsx)
 
-InterviewIQ is an AI-powered web application that simulates adaptive
-mock interviews with voice support and long-term progression tracking.
+## What happens after you answer?
 
-Users enter their target job type and job description once at the start
-of a session. The system then generates tailored interview questions
-organized by relevant categories (for example, data structures for
-software engineering roles or revenue and cost analysis for consulting
-roles).
+**During the interview**, the evaluator scores the skills your answer demonstrates. If you solve a hash-map problem but leave the space complexity unexplained, the interviewer can stay on that problem and ask how much memory your solution needs. A session runs for up to three answers. At the end, you get a transcript, a skill breakdown, and drills for your next practice session. [Interview logic](src/lib/interviewer.ts) · [Evaluation criteria](src/lib/prompts.ts)
 
-InterviewIQ adapts dynamically based on user performance:
+**Between interviews**, the app makes two decisions. The overall session score determines the next topic. Finish a hash-map interview with a 7/10 and the next one revisits hash maps with a simpler prompt. Score 7.5 or higher and the app picks an unfinished category if one remains. Separately, the app tracks individual skills to choose difficulty and what to probe. [Category and skill selection](src/lib/adaptation.ts)
 
--   If a response receives a score **≥ 7.5**, the user advances and the
-    category is marked complete.
--   If a response receives a score **\< 7.5**, the system repeats the
-    same category with an easier question to reinforce weak areas.
+## Engineering decisions
 
-The platform supports optional interviewer voice output using
-ElevenLabs, real-time scoring, and a progress tracking system that
-monitors category completion and long-term improvement across
-interviews.
+- **One rough session shouldn't define a skill.** Each skill starts at 5/10. A first score of 9 moves the estimate to 6. As observations accumulate, the app gives more weight to performance and less to that starting estimate. It keeps the latest ten scores per skill and weights each one by `0.7 ^ age`, so recent work counts more than older attempts. [Scoring implementation](src/lib/adaptation.ts)
+- **Two browser tabs can answer the same question.** Evaluating an answer and generating a follow-up takes time. The server saves them together only if the SQLite session still matches the version it read. If another tab has already advanced the interview, the stale submission gets an HTTP 409 and the newer transcript stays intact. [SQLite write conditions](src/lib/store.ts)
+- **Guest practice carries over at signup.** Better Auth gives a guest an anonymous user ID. When they create an account, the app transfers ownership of their interviews. They can resume a session or reopen its report from their history. [Account linking](src/lib/auth.ts)
 
-------------------------------------------------------------------------
+## Run locally
 
-## Features
+Use **Node.js 24**. From the repository root, run `npm ci` and create a `.env.local` file with these values. Generate the auth secret once with `openssl rand -hex 32` and keep it across restarts.
 
--   Adaptive category-based question system
--   Intelligent retry logic for weak categories
--   Category completion tracking
--   Voice input via speech-to-text
--   Optional interviewer voice output using ElevenLabs Text-to-Speech
--   Real-time scoring with relaxed grading
--   Progress dashboard displaying:
-    -   Overall average score
-    -   Completed categories
-    -   In-progress categories
--   Cross-interview comparison feedback using long-term memory
--   Personalized questions using the user's name
+```dotenv
+OPENAI_API_KEY=<your OpenAI API key>
+BETTER_AUTH_SECRET=<generated secret>
+```
 
-------------------------------------------------------------------------
+Run `npm run dev`, open [localhost:3000](http://localhost:3000), and choose **Practice as a guest**. Enter a job title and description to start.
 
-## Tech Stack
+<details>
+<summary>Optional integrations and deployment</summary>
 
-### Frontend
+| Setting | Purpose |
+| --- | --- |
+| `CEREBRAS_API_KEY` | Routes interview generation and evaluation to Cerebras. Recorded answers still use OpenAI Whisper. |
+| `ELEVENLABS_API_KEY` | Enables spoken interviewer questions. |
+| `SUPERMEMORY_API_KEY` | Adds semantic retrieval of past questions and feedback. When enabled, the app also uploads recorded answers to Supermemory. |
+| `BETTER_AUTH_URL` | Set this to the public HTTPS origin when hosting. |
+| `INTERVIEWIQ_DB_PATH` | Defaults to `.data/interviewiq.sqlite`. For a single hosted instance, use a persistent volume and SQLite-aware backups. |
 
--   **React** --- User interface and interview session flow
--   **TypeScript** --- Type safety and maintainability
--   **CSS Modules** --- Component-scoped styling
-
-### Backend
-
--   **Next.js API Routes** --- Server-side logic and endpoints
--   **OpenAI API** --- Question generation, evaluation, scoring, and
-    report writing
--   **Supermemory API** --- Long-term memory for cross-interview
-    comparisons and adaptive behavior
--   **ElevenLabs API** --- Text-to-Speech using Adam (Humorous
-    Interviewer), model `eleven_turbo_v2`
-
-### Voice
-
--   **OpenAI Whisper** --- Speech-to-text transcription
--   **ElevenLabs Text-to-Speech** --- Interviewer voice output
-
-### State Management
-
--   **SQLite** stores accounts, sessions, interview transcripts, reports, and progress on disk.
--   **Supermemory** --- Persistent historical interview storage
-
-------------------------------------------------------------------------
-
-## How the Adaptive System Works
-
-1.  At the start of an interview, the system selects a random category
-    relevant to the chosen role.
-2.  The user answers the generated question and receives a score.
-3.  Based on performance:
-    -   **Score ≥ 7.5** → Category is marked as completed and the system
-        moves forward.
-    -   **Score \< 7.5** → The same category is repeated with a slightly
-        easier question.
-4.  Categories are tracked throughout the interview lifecycle.
-5.  Supermemory stores past performance and enables future reports to
-    reference:
-    -   Improvements over time
-    -   Repeated weaknesses
-    -   Cross-interview comparisons
-
-------------------------------------------------------------------------`
-
-## Architecture Overview
-
-### Frontend
-
--   **Session Page** manages:
-    -   Interview flow
-    -   Voice input handling
-    -   Real-time scoring display
-    -   Progress dashboard
-
-### Backend API Routes
-
--   **Create Session** --- Initializes interview state and selects the
-    starting category
--   **Answer Question** --- Evaluates responses and determines next
-    step
--   **End Session** --- Finalizes interview data
--   **Generate Report** --- Produces performance summary and feedback
-
-### Adaptive Category Logic
-
-The backend maintains category state per session and applies score-based
-progression rules to determine whether to advance or repeat a category
-with adjusted difficulty.
-
-### Memory Integration
-
-Supermemory stores historical interview data and is queried during
-report generation to provide cross-interview insights and personalized
-feedback.
-
-------------------------------------------------------------------------
-
-## Future Improvements
-
--   Enhanced analytics dashboard
--   Streaming Text-to-Speech support
--   Real-time difficulty scaling
--   Interview mode presets (e.g., behavioral-only, technical-only)
--   Expanded role-specific category libraries
-
-------------------------------------------------------------------------
+</details>
