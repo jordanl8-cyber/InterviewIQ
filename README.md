@@ -1,6 +1,6 @@
 # InterviewIQ
 
-InterviewIQ turns a job description into a mock interview with behavioral and coding practice. An engineering session can start with a coding problem and move on to how you work with a team. In a dedicated behavioral interview, you can practice talking through a disagreement, a failure, or a decision you would make differently today.
+InterviewIQ turns a job description into behavioral and coding practice that picks up where you left off. When you come back, the interviewer uses your past questions, feedback, and skill scores to decide what to ask next. A session can move from writing code to explaining a team decision, or focus on behavioral questions about conflict, failure, and growth.
 
 | Behavioral practice | Coding practice |
 | --- | --- |
@@ -13,7 +13,13 @@ InterviewIQ also supports product and consulting interviews. [Interview tracks](
 
 **During the interview**, the evaluator scores the skills your answer demonstrates. In a behavioral interview, it looks for a clear situation, task, action, and result (STAR), along with ownership and reflection. In a coding interview, it looks at skills such as problem solving, complexity analysis, and edge-case handling. After up to three answers, you get a transcript, a skill breakdown, and practice drills. [Skill rubrics](src/lib/constants.ts) · [Interview logic](src/lib/interviewer.ts)
 
-**Between interviews**, the overall session score determines the next topic. Finish a behavioral session on conflict with a 7/10 and the next session revisits conflict with a simpler prompt. The same rule applies to coding topics such as hash maps. At 7.5 or higher, the app picks an unfinished category if one remains. Individual skill scores guide the difficulty and what the interviewer probes next. [Category and skill selection](src/lib/adaptation.ts)
+## Long-term memory across interviews
+
+Suppose you describe a disagreement with a teammate and explain the team's decision, but leave out your own contribution. That feedback carries into later interviews. On a different teamwork question, the interviewer can ask, “Which part did you own?” If past coding reports flag complexity analysis, a new problem can give you another chance to explain how runtime grows with input size.
+
+**Supermemory** makes past feedback searchable. When enabled, it stores each session report with the questions asked, tagged to your user ID. At the start of a new interview, the app searches your reports for earlier weaknesses and questions. It gives those results to the interviewer to guide follow-ups and avoid repeating a prompt word for word. [Memory retrieval](src/lib/adaptation.ts) · [Question generation](src/lib/prompts.ts)
+
+**SQLite** keeps your progress across sessions even when Supermemory is disabled. The app builds a skill profile from your scored interviews and uses your two lowest-rated skills to focus practice. If your overall session score falls below 7.5/10, you revisit the category with a simpler prompt. At 7.5 or higher, the app picks an unfinished category if one remains. [Saved reports](src/lib/store.ts) · [Session setup](src/app/api/sessions/route.ts)
 
 ## Engineering decisions
 
