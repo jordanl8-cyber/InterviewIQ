@@ -1,0 +1,16 @@
+.header { border-bottom: 1px solid var(--border); position: relative; z-index: 2; }
+.nav { width: 100%; min-height: 76px; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.brand { display: flex; gap: 12px; align-items: center; color: var(--text); font-size: 24px; line-height: 1; font-weight: 600; letter-spacing: -.06em; }
+.diamond { width: 14px; height: 14px; border-radius: 2px; background: var(--primary); transform: rotate(45deg); }
+.links { display: flex; align-items: center; gap: 28px; color: var(--text-secondary); font-size: 14px; }
+.links a:hover, .links a[aria-current] { color: var(--text); }
+.action, .menu { padding: 8px 16px; border: 1px solid var(--border-light); border-radius: 8px; color: var(--text); }
+.menu { display: none; font-size: 14px; }
+@media (max-width: 660px) {
+  .nav { min-height: 64px; padding: 0 20px; }
+  .menu { display: block; }
+  .links { display: none; }
+  .links[data-open="true"] { display: flex; position: absolute; left: 0; right: 0; top: 100%; padding: 12px 20px; background: var(--bg-secondary); border-bottom: 1px solid var(--border); align-items: stretch; flex-direction: column; gap: 4px; }
+  .links a { padding: 8px 0; }
+  .links .action { border: 0; }
+}

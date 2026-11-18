@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --bg: #191b1b;
+  --bg-secondary: #202323;
+  --bg-card: #252828;
+  --bg-elevated: #2b2e2e;
+  --bg-card-hover: #303433;
+  --text: #f4f3ec;
+  --text-secondary: #c3c6bd;
+  --text-muted: #a1a69f;
+  --border: #393e3b;
+  --border-light: #626a64;
+  --primary: #c1dfb9;
+  --primary-hover: #daf0d4;
+  --primary-muted: #2c3c30;
+  --on-primary: #192b1d;
+  --success: #a7cfa2;
+  --warning: #e1be85;
+  --danger: #f3aaa0;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Spectral', Georgia, serif;
+  --page-width: 1248px;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 400 16px/1.55 var(--font-body); -webkit-font-smoothing: antialiased; font-variant-numeric: tabular-nums; }
+a { color: inherit; text-decoration: none; }
+button, input, textarea { font: inherit; }
+button, summary { cursor: pointer; }
+button:disabled { cursor: default; opacity: .55; }
+input, textarea { background: var(--bg-secondary); border: 1px solid var(--border-light); color: var(--text); border-radius: 8px; padding: 12px 16px; width: 100%; min-width: 0; }
+input::placeholder, textarea::placeholder { color: var(--text-muted); }
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; }
+::selection { background: #c1dfb9; color: #18251b; }
+.primaryButton, .secondaryButton {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px;
+  padding: 10px 20px; border: 1px solid transparent; border-radius: 8px; font-weight: 600; font-size: 15px;
+  transition: background-color .15s ease, border-color .15s ease;
+}
+.primaryButton { background: var(--primary); color: var(--on-primary); }
+.primaryButton:is(:hover,:focus-visible):not(:disabled) { background: var(--primary-hover); }
+.secondaryButton { border-color: var(--border-light); background: transparent; color: var(--text); }
+.secondaryButton:is(:hover,:focus-visible):not(:disabled) { background: var(--bg-card-hover); }
+.voiceMark { display: inline-flex; align-items: center; justify-content: center; gap: 2px; width: 20px; height: 20px; color: inherit; flex: none; }
+.voiceMark i { display: block; width: 2px; border-radius: 2px; height: 6px; background: currentColor; }
+.voiceMark i:nth-child(2) { height: 14px; }
+.voiceMark i:nth-child(3) { height: 20px; }
+.voiceMark i:nth-child(4) { height: 10px; }

@@ -1,0 +1,53 @@
+.workspace { max-width: 1720px; margin: auto; padding: 16px 24px 24px; height: calc(100dvh - 77px); min-height: 580px; display: flex; flex-direction: column; }
+.toolbar, .context, .actions, .panelHeader, .status, .submitBar, .metadata { display: flex; align-items: center; }
+.toolbar { justify-content: space-between; gap: 16px; padding: 0 0 16px; }
+.context, .actions { gap: 16px; }
+.context strong { font-weight: 600; font-size: 18px; letter-spacing: -.025em; }
+.context > span, .actions > span { font-size: 13px; color: var(--text-secondary); }
+.context > span { border-left: 1px solid var(--border-light); padding-left: 16px; }
+.actions button { min-height: 32px; padding: 4px 10px; font-size: 13px; }
+.panes { flex: 1; display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 12px; min-height: 0; }
+.panel { min-width: 0; min-height: 0; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--bg-secondary); }
+.panelHeader { min-height: 48px; padding: 8px 16px; gap: 10px; border-bottom: 1px solid var(--border); font-size: 14px; font-weight: 600; background: var(--bg-card); }
+.icon { font: 16px/1 ui-monospace, monospace; color: var(--primary); }
+.panelHeader select { margin-left: auto; font: inherit; font-weight: 400; font-size: 13px; color: var(--text); border: 1px solid var(--border-light); border-radius: 5px; background: var(--bg-secondary); padding: 4px 8px; }
+.brief { padding: clamp(18px, 2.2vw, 32px); overflow-y: auto; color: var(--text-secondary); scrollbar-width: thin; overflow-wrap: anywhere; }
+.metadata { gap: 12px; font-size: 12px; color: var(--text-muted); }
+.metadata span:first-child { padding: 2px 8px; background: var(--primary-muted); color: var(--primary); border-radius: 4px; text-transform: capitalize; }
+.brief h1 { margin: 12px 0 20px; font: 550 clamp(24px, 2.2vw, 34px)/1.15 var(--font-body); color: var(--text); letter-spacing: -.045em; }
+.brief p { font-size: 15px; line-height: 1.7; white-space: pre-wrap; }
+.brief h2 { font-size: 15px; font-weight: 600; margin: 24px 0 8px; color: var(--text); }
+.brief code, .brief pre, .example dd, .status, .fileBar { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.brief code { color: var(--text); background: var(--bg-elevated); padding: 1px 4px; border-radius: 3px; font-size: .88em; }
+.brief pre, .example { background: var(--bg); border-left: 2px solid var(--border-light); padding: 12px 16px; border-radius: 0 5px 5px 0; }
+.brief pre, .example dd { font-size: 13px; white-space: pre-wrap; color: var(--text); }
+.example dt { font-size: 12px; margin-bottom: 4px; color: var(--text-muted); }
+.example dd + dt { margin-top: 12px; }
+.followUp { margin-top: 24px; border-top: 1px solid var(--border); }
+.fileBar { display: flex; font-size: 12px; background: var(--bg); border-bottom: 1px solid var(--border); }
+.fileBar span { padding: 8px 16px; border-top: 2px solid var(--primary); background: #202428; }
+.editor { min-height: 160px; flex: 1; background: #202428; overflow: hidden; }
+.editor > div { height: 100%; }
+.editor :global(.cm-editor), .editor :global(.cm-gutters) { background: #202428; }
+.editor :global(.cm-scroller) { font: 14px/1.7 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.editor :global(.cm-content) { padding-top: 14px; }
+.editor :global(.cm-gutters) { color: #949d9f; padding-left: 8px; padding-right: 8px; }
+.editor :global(.cm-focused) { outline: 2px solid var(--border-light); outline-offset: -2px; }
+.status { justify-content: space-between; gap: 8px; padding: 4px 16px; color: var(--text-muted); font-size: 11px; border-top: 1px solid var(--border); }
+.notes { border-top: 1px solid var(--border); }
+.notes > button { width: 100%; text-align: left; padding: 12px 16px; font-size: 14px; }
+.notes > button span { margin-right: 6px; color: var(--text-muted); }
+.notes > div { padding: 0 16px 12px; }
+.notes textarea { display: block; height: 76px; margin-bottom: 8px; padding: 8px 12px; font-size: 14px; resize: vertical; }
+.submitBar { justify-content: flex-end; gap: 12px; padding: 12px 16px; border-top: 1px solid var(--border); }
+.submitBar small { font-size: 12px; color: var(--text-muted); }
+.submitBar button { min-height: 36px; padding: 6px 16px; font-size: 14px; }
+.error { padding: 8px 16px; color: var(--danger); font-size: 14px; }
+@media (max-width: 760px) {
+  .workspace { height: auto; padding: 12px; }
+  .toolbar { align-items: flex-start; flex-wrap: wrap; gap: 8px; }
+  .context, .actions { flex-wrap: wrap; gap: 8px; }
+  .panes { display: flex; flex-direction: column; }
+  .brief { overflow-y: visible; }
+  .editor { flex: none; height: 46dvh; min-height: 240px; }
+}

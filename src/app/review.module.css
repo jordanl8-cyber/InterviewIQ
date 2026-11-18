@@ -1,0 +1,59 @@
+.container { max-width: 1120px; margin: auto; padding: 60px 32px; }
+.title { font-size: clamp(40px, 5vw, 64px); font-weight: 500; line-height: 1.05; letter-spacing: -.055em; }
+.subtitle, .meta { color: var(--text-secondary); margin: 12px 0 32px; }
+.meta, .sessionInfo { display: flex; gap: 12px; flex-wrap: wrap; align-items: baseline; }
+.meta > span + span { border-left: 1px solid var(--border-light); padding-left: 12px; }
+.tag { text-transform: capitalize; }
+.section { border-top: 1px solid var(--border); padding: 32px 0; display: grid; grid-template-columns: minmax(180px,.65fr) minmax(0,1.35fr); gap: 12px 40px; align-items: start; }
+.section > :not(:first-child) { grid-column: 2; }
+.sectionTitle { font-size: clamp(20px, 2vw, 26px); font-weight: 500; line-height: 1.25; letter-spacing: -.03em; }
+.overallScore { display: flex; gap: 24px; align-items: baseline; background: var(--primary-muted); color: var(--primary); padding: 24px 32px; border-radius: 12px; margin-bottom: 32px; }
+.scoreNumber { font: 400 64px/1 var(--font-display); letter-spacing: -.04em; }
+.scoreNumber small { font: 400 24px/1 var(--font-body); }
+.scoreLabel { font-size: 16px; }
+.skillGrid, .drillsGrid, .sessionList { display: grid; gap: 12px; }
+.skillRow { display: grid; grid-template-columns: minmax(120px,1fr) minmax(44px,1fr) 36px; gap: 12px; align-items: center; }
+.skillName { color: var(--text-secondary); }
+.skillScore, .sessionScore { text-align: right; font-weight: 500; }
+.skillBarBg { background: var(--border); border-radius: 4px; height: 6px; overflow: hidden; }
+.skillBarFill { height: 100%; border-radius: inherit; background: var(--primary); }
+.summary, .drillProblem { color: var(--text-secondary); white-space: pre-line; overflow-wrap: anywhere; }
+.list, .hintList { list-style: disc; padding-left: 20px; color: var(--text-secondary); }
+.list li + li, .hintList li + li { margin-top: 8px; }
+.list li::marker, .hintList li::marker { color: var(--text-muted); }
+.drillCard { background: var(--bg-secondary); border: 1px solid var(--border); padding: 20px; border-radius: 12px; min-width: 0; }
+.drillTitle { font-size: 20px; font-weight: 500; line-height: 1.3; }
+.drillSkillTag, .drillLabel { display: block; color: var(--text-muted); font-size: 14px; margin: 4px 0 8px; }
+.drillSection { margin-top: 16px; }
+.codeBlock { overflow: auto; padding: 12px; border-radius: 8px; background: var(--bg); font: 14px/1.5 ui-monospace, monospace; }
+.statsGrid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 16px; }
+.statValue { font: 400 40px/1.1 var(--font-display); }
+.statLabel { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+.highlightCard { color: var(--text-secondary); padding-top: 12px; }
+.nextInterviewCard { background: var(--bg-secondary); border-left: 3px solid var(--primary); padding: 16px 20px; border-radius: 0 8px 8px 0; }
+.sessionList { gap: 0; }
+.sessionRow { display: flex; gap: 16px; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 12px 8px; }
+.sessionRow:hover { background: var(--bg-secondary); }
+.sessionInfo { gap: 8px 12px; }
+.sessionInfo .tag { color: var(--text-muted); font-size: 13px; }
+.scoreGreen { color: var(--success); }
+.scoreYellow { color: var(--warning); }
+.scoreRed { color: var(--danger); }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--border); padding-top: 24px; }
+.loading { display: grid; min-height: 48vh; place-items: center; text-align: center; padding: 24px; }
+.empty { border-top: 1px solid var(--border); margin-top: 32px; padding: 32px 0; }
+.empty h2 { font: 400 32px/1.2 var(--font-display); }
+.empty p { margin: 12px 0 24px; color: var(--text-secondary); max-width: 48ch; }
+@media(max-width: 740px) {
+  .container { padding: 36px 20px; }
+  .section { grid-template-columns: 1fr; gap: 20px; padding: 24px 0; }
+  .section > :not(:first-child) { grid-column: 1; }
+  .statsGrid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; }
+  .overallScore { padding: 20px; }
+}
+
+.historyRow, .historyLinks { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.historyRow { padding: 18px 0; border-top: 1px solid var(--border); justify-content: space-between; }
+.historyRow h2 { font-size: 18px; font-weight: 500; }
+.historyRow small, .historyLinks span { color: var(--text-muted); }
+.historyLinks a { font-size: 14px; color: var(--primary); text-decoration: underline; text-underline-offset: 4px; }

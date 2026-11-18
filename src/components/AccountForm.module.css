@@ -1,0 +1,9 @@
+.page { width: min(420px, calc(100% - 40px)); margin: clamp(40px, 9vh, 100px) auto; }
+.page h1 { font: 500 clamp(32px, 5vw, 46px)/1.1 var(--font-body); letter-spacing: -.05em; }
+.page > p { color: var(--text-secondary); margin: 14px 0 28px; }
+.page form { display: grid; gap: 18px; }
+.page label { display: grid; gap: 6px; font-size: 14px; font-weight: 500; }
+.page small { color: var(--text-muted); font-weight: 400; }
+.page form p { color: var(--danger); }
+.page > div { margin-top: 20px; font-size: 14px; color: var(--text-secondary); }
+.page a { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; }
